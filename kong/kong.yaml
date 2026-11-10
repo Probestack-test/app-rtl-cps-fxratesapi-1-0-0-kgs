@@ -1,0 +1,710 @@
+_format_version: "3.0"
+_transform: true
+
+########################################################
+# SERVICES
+########################################################
+
+services:
+  - name: fxratesapi-1-0-0
+    host: httpbin.org
+    port: 443
+    protocol: https
+    path: /anything/aldermoor/fx
+    retries: 5
+    connect_timeout: 60000
+    write_timeout: 60000
+    read_timeout: 60000
+    enabled: true
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+    routes:
+      - name: merchantservicesbundle-1-0-0--fxratesapi--getrates-currencypair
+        protocols:
+          - http
+          - https
+        methods:
+          - GET
+        paths:
+          - ~/merchant/suite/rates/(?<currencyPair>[^/]+)$
+        strip_path: false
+        preserve_host: false
+        https_redirect_status_code: 426
+        regex_priority: 0
+        path_handling: v0
+        request_buffering: true
+        response_buffering: true
+        tags:
+          - wso2-source-id:78500143-b982-43be-b158-331140badcbe
+          - migrated-by:forgeshift-wso2-migrator
+          - wso2-api-product:MerchantServicesBundle
+          - wso2-member-api:eae56486-0580-4117-abb3-c38ba10d9ac5
+          - wso2-resource:_rates_{currencyPair}
+          - wso2-verb:GET
+      - name: fxratesapi-1-0-0--getrates-currencypair-history
+        protocols:
+          - https
+        methods:
+          - GET
+          - OPTIONS
+        paths:
+          - ~/markets/fx/1\.0\.0/rates/(?<currencyPair>[^/]+)/history$
+        strip_path: false
+        preserve_host: false
+        https_redirect_status_code: 426
+        regex_priority: 0
+        path_handling: v0
+        request_buffering: true
+        response_buffering: true
+        tags:
+          - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+          - migrated-by:forgeshift-wso2-migrator
+          - fx
+          - markets
+          - rates
+          - wso2-resource:_rates_{currencyPair}_history
+          - wso2-verb:GET
+      - name: fxratesapi-1-0-0--postconversions-quote
+        protocols:
+          - https
+        methods:
+          - POST
+          - OPTIONS
+        paths:
+          - /markets/fx/1.0.0/conversions/quote
+        strip_path: false
+        preserve_host: false
+        https_redirect_status_code: 426
+        regex_priority: 0
+        path_handling: v0
+        request_buffering: true
+        response_buffering: true
+        tags:
+          - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+          - migrated-by:forgeshift-wso2-migrator
+          - fx
+          - markets
+          - rates
+          - wso2-resource:_conversions_quote
+          - wso2-verb:POST
+      - name: fxratesapi-1-0-0--getrates-currencypair
+        protocols:
+          - https
+        methods:
+          - GET
+          - OPTIONS
+        paths:
+          - ~/markets/fx/1\.0\.0/rates/(?<currencyPair>[^/]+)$
+        strip_path: false
+        preserve_host: false
+        https_redirect_status_code: 426
+        regex_priority: 0
+        path_handling: v0
+        request_buffering: true
+        response_buffering: true
+        tags:
+          - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+          - migrated-by:forgeshift-wso2-migrator
+          - fx
+          - markets
+          - rates
+          - wso2-resource:_rates_{currencyPair}
+          - wso2-verb:GET
+      - name: fxratesapi-1-0-0--getrates
+        protocols:
+          - https
+        methods:
+          - GET
+          - OPTIONS
+        paths:
+          - /markets/fx/1.0.0/rates
+        strip_path: false
+        preserve_host: false
+        https_redirect_status_code: 426
+        regex_priority: 0
+        path_handling: v0
+        request_buffering: true
+        response_buffering: true
+        tags:
+          - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+          - migrated-by:forgeshift-wso2-migrator
+          - fx
+          - markets
+          - rates
+          - wso2-resource:_rates
+          - wso2-verb:GET
+
+########################################################
+# PLUGINS
+########################################################
+
+plugins:
+  - name: request-transformer
+    route: merchantservicesbundle-1-0-0--fxratesapi--getrates-currencypair
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      add:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      append:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      http_method: null
+      remove:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      rename:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      replace:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+        uri: /rates/$(uri_captures.currencyPair)
+    tags:
+      - wso2-source-id:78500143-b982-43be-b158-331140badcbe
+      - migrated-by:forgeshift-wso2-migrator
+      - wso2-api-product:MerchantServicesBundle
+  - name: jwt
+    service: fxratesapi-1-0-0
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      anonymous: null
+      claims_to_verify:
+        - exp
+      cookie_names:
+        []
+      header_names:
+        - authorization
+      key_claim_name: azp
+      maximum_expiration: 0
+      realm: null
+      run_on_preflight: true
+      secret_is_base64: "[REDACTED]"
+      uri_param_names:
+        - jwt
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+  - name: pre-function
+    service: fxratesapi-1-0-0
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      access:
+        - "-- Apigee path rewrite (apigee-kong-migrator)\nlocal route        = kong.router.get_route()\nlocal service      = kong.router.get_service()\nlocal service_path = (service and service.path) or \"/\"\n-- Check for apigee-strip-len tag set on suffix routes during migration\nlocal strip_len = nil\nif route and route.tags then\n  for _, tag in ipairs(route.tags) do\n    if tag:sub(1, 17) == \"apigee-strip-len:\" then\n      strip_len = tonumber(tag:sub(18))\n      break\n    end\n  end\nend\n-- Fall back to route path length if no tag (covers normal routes)\nif not strip_len then\n  local route_path = (route and route.paths and route.paths[1]) or \"/\"\n  if route_path:sub(1, 1) == \"~\" then route_path = route_path:sub(2) end\n  strip_len = #route_path\nend\nlocal incoming = kong.request.get_path()\nlocal suffix = \"/\"\nif #incoming >= strip_len then\n  suffix = incoming:sub(strip_len + 1)\nend\nif suffix == \"\" then suffix = \"/\" end\nlocal clean_target = service_path:gsub(\"/+$\", \"\")\nif suffix:sub(1, 1) ~= \"/\" then suffix = \"/\" .. suffix end\nkong.service.request.set_path(clean_target .. suffix)\n"
+      body_filter:
+        []
+      certificate:
+        []
+      functions:
+        []
+      header_filter:
+        []
+      log:
+        []
+      rewrite:
+        []
+      ws_client_frame:
+        []
+      ws_close:
+        []
+      ws_handshake:
+        []
+      ws_upstream_frame:
+        []
+    tags:
+      - global
+      - apigee-path-rewrite
+  - name: rate-limiting
+    service: fxratesapi-1-0-0
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      day: null
+      error_code: 429
+      error_message: API rate limit exceeded
+      fault_tolerant: true
+      header_name: null
+      hide_client_headers: false
+      hour: null
+      limit_by: consumer
+      minute: 1000
+      month: null
+      path: null
+      policy: local
+      redis:
+        cloud_authentication: null
+        database: 0
+        host: null
+        password: "[REDACTED]"
+        port: 6379
+        server_name: null
+        ssl: false
+        ssl_verify: false
+        timeout: 2000
+        username: null
+      redis_database: 0
+      redis_host: null
+      redis_password: "[REDACTED]"
+      redis_port: 6379
+      redis_server_name: null
+      redis_ssl: false
+      redis_ssl_verify: false
+      redis_timeout: 2000
+      redis_username: null
+      second: null
+      sync_rate: -1
+      year: null
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+      - wso2-tier:Bronze
+  - name: jwt
+    route: merchantservicesbundle-1-0-0--fxratesapi--getrates-currencypair
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      anonymous: null
+      claims_to_verify:
+        - exp
+      cookie_names:
+        []
+      header_names:
+        - authorization
+      key_claim_name: azp
+      maximum_expiration: 0
+      realm: null
+      run_on_preflight: true
+      secret_is_base64: "[REDACTED]"
+      uri_param_names:
+        - jwt
+    tags:
+      - wso2-source-id:78500143-b982-43be-b158-331140badcbe
+      - migrated-by:forgeshift-wso2-migrator
+      - wso2-api-product:MerchantServicesBundle
+  - name: request-transformer
+    route: fxratesapi-1-0-0--getrates-currencypair
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      add:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      append:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      http_method: null
+      remove:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      rename:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      replace:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+        uri: /anything/aldermoor/fx/rates/$(uri_captures.currencyPair)
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+  - name: cors
+    service: fxratesapi-1-0-0
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      allow_origin_absent: true
+      credentials: false
+      exposed_headers:
+        - "*"
+      headers:
+        - "*"
+      max_age: null
+      methods:
+        - GET
+        - HEAD
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
+        - TRACE
+        - CONNECT
+      origins:
+        - "*"
+      preflight_continue: false
+      private_network: false
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+  - name: key-auth
+    route: merchantservicesbundle-1-0-0--fxratesapi--getrates-currencypair
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+      - ws
+      - wss
+    config:
+      anonymous: null
+      hide_credentials: false
+      identity_realms:
+        - id: null
+          region: null
+          scope: cp
+      key_in_body: false
+      key_in_header: true
+      key_in_query: true
+      key_names:
+        - apikey
+      principals:
+        directory: default
+        enabled: false
+        error_on_miss: true
+      realm: null
+      run_on_preflight: true
+    tags:
+      - wso2-source-id:78500143-b982-43be-b158-331140badcbe
+      - migrated-by:forgeshift-wso2-migrator
+      - wso2-api-product:MerchantServicesBundle
+  - name: request-transformer
+    route: fxratesapi-1-0-0--postconversions-quote
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      add:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      append:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      http_method: null
+      remove:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      rename:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      replace:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+        uri: /anything/aldermoor/fx/conversions/quote
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+  - name: request-transformer
+    route: fxratesapi-1-0-0--getrates-currencypair-history
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      add:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      append:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      http_method: null
+      remove:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      rename:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      replace:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+        uri: /anything/aldermoor/fx/rates/$(uri_captures.currencyPair)/history
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+  - name: acl
+    route: merchantservicesbundle-1-0-0--fxratesapi--getrates-currencypair
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      allow:
+        - wso2-api:78500143-b982-43be-b158-331140badcbe
+      always_use_authenticated_groups: false
+      deny: null
+      hide_groups_header: true
+      include_consumer_groups: false
+    tags:
+      - wso2-source-id:78500143-b982-43be-b158-331140badcbe
+      - migrated-by:forgeshift-wso2-migrator
+      - wso2-api-product:MerchantServicesBundle
+      - wso2-member-api:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - wso2-resource:_rates_{currencyPair}
+      - wso2-verb:GET
+  - name: key-auth
+    service: fxratesapi-1-0-0
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+      - ws
+      - wss
+    config:
+      anonymous: null
+      hide_credentials: false
+      identity_realms:
+        - id: null
+          region: null
+          scope: cp
+      key_in_body: false
+      key_in_header: true
+      key_in_query: true
+      key_names:
+        - apikey
+      principals:
+        directory: default
+        enabled: false
+        error_on_miss: true
+      realm: null
+      run_on_preflight: true
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+  - name: request-transformer
+    route: fxratesapi-1-0-0--getrates
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      add:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      append:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      http_method: null
+      remove:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      rename:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      replace:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+        uri: /anything/aldermoor/fx/rates
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+  - name: proxy-cache
+    service: fxratesapi-1-0-0
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      cache_control: false
+      cache_ttl: 60
+      content_type:
+        - text/plain
+        - application/json
+      ignore_uri_case: false
+      memory:
+        dictionary_name: kong_db_cache
+      request_method:
+        - GET
+      response_code:
+        - 200
+      response_headers:
+        X-Cache-Key: true
+        X-Cache-Status: true
+        age: true
+      storage_ttl: null
+      strategy: memory
+      vary_headers: null
+      vary_query_params: null
+    tags:
+      - wso2-source-id:eae56486-0580-4117-abb3-c38ba10d9ac5
+      - migrated-by:forgeshift-wso2-migrator
+      - fx
+      - markets
+      - rates
+
+########################################################
+# UPSTREAMS + TARGETS
+########################################################
+
+upstreams:
+  []
