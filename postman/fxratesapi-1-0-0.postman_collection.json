@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "fxratesapi-1-0-0 Postman Collection",
+    "description": "Operational baseline generated from observed Kong Konnect configuration.\n\nOpenAPI version: 3.0.3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://httpbin.org/anything/aldermoor/fx",
+      "type": "string",
+      "description": "Override with the base URL of the deployed Kong gateway."
+    }
+  ],
+  "item": [
+    {
+      "name": "fxratesapi-1-0-0--postconversions-quote",
+      "request": {
+        "method": "OPTIONS",
+        "description": "fxratesapi-1-0-0--postconversions-quote\n\nResponses:\n- default: Runtime response semantics are not observable from Kong configuration.",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/markets/fx/1.0.0/conversions/quote",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "markets",
+            "fx",
+            "1.0.0",
+            "conversions",
+            "quote"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "fxratesapi-1-0-0--postconversions-quote",
+      "request": {
+        "method": "POST",
+        "description": "fxratesapi-1-0-0--postconversions-quote\n\nResponses:\n- default: Runtime response semantics are not observable from Kong configuration.",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/markets/fx/1.0.0/conversions/quote",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "markets",
+            "fx",
+            "1.0.0",
+            "conversions",
+            "quote"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "fxratesapi-1-0-0--getrates",
+      "request": {
+        "method": "GET",
+        "description": "fxratesapi-1-0-0--getrates\n\nResponses:\n- default: Runtime response semantics are not observable from Kong configuration.",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/markets/fx/1.0.0/rates",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "markets",
+            "fx",
+            "1.0.0",
+            "rates"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "fxratesapi-1-0-0--getrates",
+      "request": {
+        "method": "OPTIONS",
+        "description": "fxratesapi-1-0-0--getrates\n\nResponses:\n- default: Runtime response semantics are not observable from Kong configuration.",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/markets/fx/1.0.0/rates",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "markets",
+            "fx",
+            "1.0.0",
+            "rates"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
